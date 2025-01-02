@@ -71,6 +71,8 @@ const Page = ({ params }: { params: Promise<{ slug: string }> }) => {
     }
 
     await pb.collection('posts').update(post!.id, data)
+
+    window.location.href = `/`
   }
 
   useEffect(() => {

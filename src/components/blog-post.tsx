@@ -1,7 +1,7 @@
 'use client'
 
 import { CalendarDays, Pencil, User } from 'lucide-react'
-import { Card, CardContent, CardHeader } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import Tiptap from './tiptap'
 import { useEditorInit } from '@/my-lib/hooks'
 import { Button } from './ui/button'
@@ -47,13 +47,17 @@ const BlogPost = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  console.log(post)
-
   const getComments = async () => {
     const comments = await pb.collection('comments').getFullList({ filter: `post="${post.id}"` })
-    // const comments = await pb.collection('comments').getFullList()
-    console.log(comments)
-    setComments(comments)
+    let massagedComments: RecordModel[] = []
+
+    for (const comment of comments) {
+      const author = await pb.collection('user').getFirstListItem(`id="${comment.user}"`)
+      comment.author = author.name
+      massagedComments = [...massagedComments, comment]
+    }
+
+    setComments(massagedComments)
   }
 
   useEffect(() => {
@@ -97,22 +101,31 @@ const BlogPost = ({
 
       {/* Main content */}
 
+      {user?.role === 'editor' && (
+        <div className="flex justify-end mb-4">
+          <Link href={`/edit/${post?.slug}`}>
+            <Button className="h-8 w-8">
+              <Pencil />
+            </Button>
+          </Link>
+        </div>
+      )}
       <Card className="mb-8">
-        {user?.role === 'editor' && (
-          <CardHeader className="flex items-end">
-            <Link href={`/edit/${post?.slug}`}>
-              <Button className="h-8 w-8">
-                <Pencil />
-              </Button>
-            </Link>
-          </CardHeader>
-        )}
         <CardContent>
           <Tiptap editor={editor!} renderToolbar={false} />
         </CardContent>
       </Card>
 
-      {comments ? <BlogComments comments={comments} /> : <BlogCommentsSkeleton />}
+      {comments && user && (
+        <BlogComments
+          comments={comments}
+          postId={post.id}
+          userId={user.id}
+          setComments={setComments}
+        />
+      )}
+
+      {!comments && <BlogCommentsSkeleton />}
     </div>
   )
 }

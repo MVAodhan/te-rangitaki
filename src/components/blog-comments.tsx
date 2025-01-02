@@ -1,18 +1,49 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { MessageCircle, Clock } from 'lucide-react'
 import { RecordModel } from 'pocketbase'
+import { pb } from '@/my-lib/pocketbase'
+import { useRef } from 'react'
 
-const BlogComments = ({ comments }: { comments: RecordModel[] }) => {
+const BlogComments = ({
+  comments,
+  userId,
+  postId,
+  setComments,
+}: {
+  comments: RecordModel[]
+  userId: string
+  postId: string
+  setComments: (comments: RecordModel[]) => void
+}) => {
+  const createComment = async () => {
+    const data = {
+      comment: commentRef.current?.value,
+      user: userId,
+      post: postId,
+    }
+
+    const newComment = await pb.collection('comments').create(data)
+
+    const author = await pb.collection('user').getFirstListItem(`id="${newComment.user}"`)
+    newComment.author = author.name
+    setComments([newComment, ...comments])
+
+    commentRef.current!.value = ''
+  }
+  const commentRef = useRef<HTMLTextAreaElement | null>(null)
   return (
     <div className="w-full p-4">
       <Card className="mb-6">
         <CardContent className="pt-6">
           <div className="flex flex-col gap-4">
-            <Textarea placeholder="Share your thoughts..." className="min-h-[100px]" />
+            <Textarea
+              placeholder="Share your thoughts..."
+              className="min-h-[100px]"
+              ref={commentRef}
+            />
             <div className="flex justify-end">
-              <Button>Post Comment</Button>
+              <Button onClick={createComment}>Post Comment</Button>
             </div>
           </div>
         </CardContent>
@@ -28,11 +59,11 @@ const BlogComments = ({ comments }: { comments: RecordModel[] }) => {
                     J
                   </div>
                   <div>
-                    <p className="font-medium">comment.author</p>
-                    <div className="flex items-center text-sm text-gray-500">
+                    <p className="font-medium">{comment.author}</p>
+                    {/* <div className="flex items-center text-sm text-gray-500">
                       <Clock className="w-4 h-4 mr-1" />
                       comment.timestamp
-                    </div>
+                    </div> */}
                   </div>
                 </div>
                 {/* <Button variant="ghost" size="sm" className="flex items-center gap-1">
@@ -44,11 +75,6 @@ const BlogComments = ({ comments }: { comments: RecordModel[] }) => {
             </CardContent>
           </Card>
         ))}
-      </div>
-
-      <div className="mt-4 flex items-center gap-2 text-gray-500">
-        <MessageCircle className="w-5 h-5" />
-        <span>{comments.length} Comments</span>
       </div>
     </div>
   )
