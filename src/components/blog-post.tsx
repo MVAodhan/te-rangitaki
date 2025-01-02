@@ -9,14 +9,18 @@ import { useAtomValue, useSetAtom } from 'jotai'
 import { userAtom } from '@/jotai'
 import { IUser } from '@/types'
 import { pb } from '@/my-lib/pocketbase'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import BlogComments from './blog-comments'
+import BlogCommentsSkeleton from './blog-comments-skelly'
+import { RecordModel } from 'pocketbase'
 
 const BlogPost = ({
   post,
   authorName,
 }: {
   post: {
+    id: string
     title: string
     author: string
     created: string
@@ -34,15 +38,30 @@ const BlogPost = ({
 
   const user = useAtomValue(userAtom) as IUser
   const setUser = useSetAtom(userAtom)
+  const [comments, setComments] = useState<RecordModel[] | null>(null)
 
   useEffect(() => {
-    if (pb.authStore.isValid) {
+    if (pb.authStore.isValid && !user) {
       setUser(pb.authStore.record)
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   console.log(post)
+
+  const getComments = async () => {
+    const comments = await pb.collection('comments').getFullList({ filter: `post="${post.id}"` })
+    // const comments = await pb.collection('comments').getFullList()
+    console.log(comments)
+    setComments(comments)
+  }
+
+  useEffect(() => {
+    if (post) {
+      getComments()
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [post])
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       {/* Header */}
@@ -92,6 +111,8 @@ const BlogPost = ({
           <Tiptap editor={editor!} renderToolbar={false} />
         </CardContent>
       </Card>
+
+      {comments ? <BlogComments comments={comments} /> : <BlogCommentsSkeleton />}
     </div>
   )
 }

@@ -20,3 +20,10 @@ export interface IUser {
   verified: boolean
   role: string
 }
+
+export interface IComment {
+  id: string
+  author: string
+  content: string
+  timestamp: string
+}
