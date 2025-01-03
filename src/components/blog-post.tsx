@@ -1,7 +1,6 @@
 'use client'
 
-import { CalendarDays, Pencil, User } from 'lucide-react'
-import { Card, CardContent } from '@/components/ui/card'
+import { CalendarDays, Pencil, User, Trash2 } from 'lucide-react'
 import Tiptap from './tiptap'
 import { useEditorInit } from '@/my-lib/hooks'
 import { Button } from './ui/button'
@@ -14,11 +13,14 @@ import Link from 'next/link'
 import BlogComments from './blog-comments'
 import BlogCommentsSkeleton from './blog-comments-skelly'
 import { RecordModel } from 'pocketbase'
+import { Card, CardHeader } from './ui/card'
 
 const BlogPost = ({
+  posts,
   post,
   authorName,
 }: {
+  posts: RecordModel[]
   post: {
     id: string
     title: string
@@ -38,6 +40,7 @@ const BlogPost = ({
 
   const user = useAtomValue(userAtom) as IUser
   const setUser = useSetAtom(userAtom)
+
   const [comments, setComments] = useState<RecordModel[] | null>(null)
 
   useEffect(() => {
@@ -58,6 +61,17 @@ const BlogPost = ({
     }
 
     setComments(massagedComments)
+  }
+
+  function removePostById(posts: RecordModel[], idToRemove: string): RecordModel[] {
+    return posts.filter((post) => post.id !== idToRemove)
+  }
+  const deletePost = async () => {
+    await pb.collection('posts').delete(post.id)
+
+    removePostById(posts, post.id)
+
+    window.location.href = `/`
   }
 
   useEffect(() => {
@@ -103,30 +117,39 @@ const BlogPost = ({
       {/* Main content */}
 
       {user?.role === 'editor' && (
-        <div className="flex justify-end mb-4">
+        <div className="flex justify-end mb-4 gap-2">
           <Link href={`/edit/${post?.slug}`}>
-            <Button className="h-8 w-8">
+            <Button className="h-8">
               <Pencil />
+              <span>Edit</span>
             </Button>
           </Link>
+          <Button className="h-8 bg-red-500 text-white" onClick={deletePost}>
+            <Trash2 />
+            <span>Delete</span>
+          </Button>
         </div>
       )}
-      <Card className="mb-8">
-        <CardContent>
-          <Tiptap editor={editor!} renderToolbar={false} />
-        </CardContent>
-      </Card>
+      <div className="mb-8">
+        <Card>
+          <CardHeader>
+            <Tiptap editor={editor!} renderToolbar={false} />
+          </CardHeader>
+        </Card>
+      </div>
 
-      {comments && user && (
-        <BlogComments
-          comments={comments}
-          postId={post.id}
-          userId={user.id}
-          setComments={setComments}
-        />
-      )}
+      <div className="w-full ">
+        {comments && user && (
+          <BlogComments
+            comments={comments}
+            postId={post.id}
+            userId={user.id}
+            setComments={setComments}
+          />
+        )}
 
-      {!comments && <BlogCommentsSkeleton />}
+        {!comments && <BlogCommentsSkeleton />}
+      </div>
     </div>
   )
 }

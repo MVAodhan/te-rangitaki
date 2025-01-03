@@ -30,7 +30,7 @@ const BlogComments = ({
       setComments([newComment, ...comments])
       commentRef.current!.value = ''
     } catch (e) {
-      // 400s insteam of 403 because of API rule, but works as intended, so we ball
+      // 400s instead of 403 because of API rule, but works as intended, so we ball
       console.log(e)
     }
   }
@@ -46,13 +46,15 @@ const BlogComments = ({
         setComments(removeCommentById(comments, id))
       }
     } catch (e) {
+      // 404s instead of 403 because of API rule, but works as intended, so we ball
+
       console.log(e)
     }
   }
 
   const commentRef = useRef<HTMLTextAreaElement | null>(null)
   return (
-    <div className="w-full p-4">
+    <div className="w-full ">
       <Card className="mb-6">
         <CardContent className="pt-6">
           <div className="flex flex-col gap-4">
