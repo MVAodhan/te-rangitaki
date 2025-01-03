@@ -5,7 +5,7 @@ import Tiptap from './tiptap'
 import { useEditorInit } from '@/my-lib/hooks'
 import { Button } from './ui/button'
 import { useAtomValue, useSetAtom } from 'jotai'
-import { userAtom } from '@/jotai'
+import { isOpenAtom, userAtom } from '@/jotai'
 import { IUser } from '@/types'
 import { pb } from '@/my-lib/pocketbase'
 import { useEffect, useState } from 'react'
@@ -40,6 +40,8 @@ const BlogPost = ({
 
   const user = useAtomValue(userAtom) as IUser
   const setUser = useSetAtom(userAtom)
+
+  const isOpen = useAtomValue(isOpenAtom)
 
   const [comments, setComments] = useState<RecordModel[] | null>(null)
 
@@ -138,18 +140,20 @@ const BlogPost = ({
         </Card>
       </div>
 
-      <div className="w-full ">
-        {comments && user && (
-          <BlogComments
-            comments={comments}
-            postId={post.id}
-            userId={user.id}
-            setComments={setComments}
-          />
-        )}
+      {!isOpen && (
+        <div className="w-full ">
+          {comments && user && (
+            <BlogComments
+              comments={comments}
+              postId={post.id}
+              userId={user.id}
+              setComments={setComments}
+            />
+          )}
 
-        {!comments && <BlogCommentsSkeleton />}
-      </div>
+          {!comments && <BlogCommentsSkeleton />}
+        </div>
+      )}
     </div>
   )
 }

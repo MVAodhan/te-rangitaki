@@ -3,13 +3,12 @@ import { pb } from '@/my-lib/pocketbase'
 import { Button } from '@/components/ui/button'
 import { Menu, X, Plus } from 'lucide-react'
 import Link from 'next/link'
-import { useState } from 'react'
-import { useAtomValue, useSetAtom } from 'jotai'
-import { userAtom } from '@/jotai'
+import { useAtom, useAtomValue, useSetAtom } from 'jotai'
+import { isOpenAtom, userAtom } from '@/jotai'
 import { IUser } from '@/types'
 
 const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false)
+  const [isOpen, setIsOpen] = useAtom(isOpenAtom)
   const user = useAtomValue(userAtom) as IUser
   const setUser = useSetAtom(userAtom)
   const navItems = [
@@ -93,7 +92,7 @@ const Navbar = () => {
       {/* Mobile menu */}
       {isOpen && (
         <div className="md:hidden ">
-          <div className="pb-4 sm:px-3 absolute top-0 left-0 right-0 h-screen w-screen bg-white z-10 flex flex-col justify-between">
+          <div className="pb-4 absolute top-0 left-0 right-0 h-screen w-screen bg-white z-10 flex flex-col justify-between">
             <div>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 shadow-md">
                 <div className="flex items-center justify-between h-16">

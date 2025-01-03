@@ -5,6 +5,8 @@ import Paragraph from '@tiptap/extension-paragraph'
 import Placeholder from '@tiptap/extension-placeholder'
 import Text from '@tiptap/extension-text'
 import { useEditor } from '@tiptap/react'
+
+import Image from '@tiptap/extension-image'
 export function generateSlug(text: string): string {
   return (
     text
@@ -46,6 +48,7 @@ export function useEditorInit({
       Placeholder.configure({
         placeholder: placeholder,
       }),
+      Image,
     ],
     editable: editable,
     content: tree,
