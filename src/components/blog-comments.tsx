@@ -1,9 +1,9 @@
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
-import { RecordModel } from 'pocketbase'
 import { pb } from '@/my-lib/pocketbase'
 import { useRef } from 'react'
+import { RecordModel } from 'pocketbase'
 
 const BlogComments = ({
   comments,
@@ -17,20 +17,39 @@ const BlogComments = ({
   setComments: (comments: RecordModel[]) => void
 }) => {
   const createComment = async () => {
-    const data = {
-      comment: commentRef.current?.value,
-      user: userId,
-      post: postId,
+    try {
+      const data = {
+        comment: commentRef.current?.value,
+        user: userId,
+        post: postId,
+      }
+
+      const newComment = await pb.collection('comments').create(data)
+      const author = await pb.collection('user').getFirstListItem(`id="${newComment.user}"`)
+      newComment.author = author.name
+      setComments([newComment, ...comments])
+      commentRef.current!.value = ''
+    } catch (e) {
+      // 400s insteam of 403 because of API rule, but works as intended, so we ball
+      console.log(e)
     }
-
-    const newComment = await pb.collection('comments').create(data)
-
-    const author = await pb.collection('user').getFirstListItem(`id="${newComment.user}"`)
-    newComment.author = author.name
-    setComments([newComment, ...comments])
-
-    commentRef.current!.value = ''
   }
+  function removeCommentById(comments: RecordModel[], idToRemove: string): RecordModel[] {
+    return comments.filter((comment) => comment.id !== idToRemove)
+  }
+
+  const deleteComment = async (id: string) => {
+    try {
+      const deleted = await pb.collection('comments').delete(id)
+
+      if (deleted) {
+        setComments(removeCommentById(comments, id))
+      }
+    } catch (e) {
+      console.log(e)
+    }
+  }
+
   const commentRef = useRef<HTMLTextAreaElement | null>(null)
   return (
     <div className="w-full p-4">
@@ -42,7 +61,7 @@ const BlogComments = ({
               className="min-h-[100px]"
               ref={commentRef}
             />
-            <div className="flex justify-end">
+            <div className="flex justify-end gap-2">
               <Button onClick={createComment}>Post Comment</Button>
             </div>
           </div>
@@ -63,15 +82,22 @@ const BlogComments = ({
                     {/* <div className="flex items-center text-sm text-gray-500">
                       <Clock className="w-4 h-4 mr-1" />
                       comment.timestamp
-                    </div> */}
+                      </div> */}
                   </div>
                 </div>
                 {/* <Button variant="ghost" size="sm" className="flex items-center gap-1">
                   <ThumbsUp className="w-4 h-4" />
                   {comment.likes}
-                </Button> */}
+                  </Button> */}
               </div>
               <p className="mt-4 text-gray-700">{comment.comment}</p>
+              {comment.user === userId && (
+                <div className="flex justify-end gap-2">
+                  <Button className="bg-red-500" onClick={() => deleteComment(comment.id)}>
+                    Delete Post
+                  </Button>
+                </div>
+              )}
             </CardContent>
           </Card>
         ))}

@@ -1,5 +1,6 @@
-export interface Post {
-  id: string
+import { RecordModel } from 'pocketbase'
+
+export interface Post extends RecordModel {
   title: string
   author: string
   created: string

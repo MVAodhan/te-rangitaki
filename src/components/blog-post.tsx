@@ -66,6 +66,7 @@ const BlogPost = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [post])
+
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       {/* Header */}
