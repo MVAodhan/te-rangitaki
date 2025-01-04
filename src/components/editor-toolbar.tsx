@@ -2,10 +2,23 @@
 
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { Type, Bold } from 'lucide-react'
+import { Type, Bold, Image, Plus, RefreshCcw } from 'lucide-react'
 
 import { Editor } from '@tiptap/react'
+import ImagePopover from './editor-toolbar-image-popover'
 const EditorToolbar = ({ editor }: { editor: Editor }) => {
+  const addFunction = (src: string) => {
+    editor?.commands.setImage({
+      src: src,
+    })
+  }
+
+  const replaceImage = (src: string) => {
+    editor?.commands.updateAttributes('image', {
+      src: src,
+    })
+  }
+
   return (
     <div className="border border-input bg-background p-1 rounded-lg flex items-center gap-1 editor-toolbar">
       {/* Text formatting */}
@@ -18,9 +31,7 @@ const EditorToolbar = ({ editor }: { editor: Editor }) => {
       >
         <Bold className="h-4 w-4" />
       </Button>
-
       <Separator orientation="vertical" className="mx-1 h-6" />
-
       {/* Headings */}
       <Button
         variant="ghost"
@@ -44,6 +55,24 @@ const EditorToolbar = ({ editor }: { editor: Editor }) => {
       </Button>
 
       <Separator orientation="vertical" className="mx-1 h-6" />
+      {
+        <ImagePopover
+          icon={<Plus className="w-5 h-5" />}
+          // eslint-disable-next-line jsx-a11y/alt-text
+          icon2={<Image className="w-5 h-5" />}
+          title="Add Image"
+          imageFunction={addFunction}
+        />
+      }
+      {
+        <ImagePopover
+          icon={<RefreshCcw className="w-5 h-5" />}
+          // eslint-disable-next-line jsx-a11y/alt-text
+          icon2={<Image className="w-5 h-5" />}
+          title="Replace Image"
+          imageFunction={replaceImage}
+        />
+      }
     </div>
   )
 }
