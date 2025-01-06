@@ -4,7 +4,8 @@ import './globals.css'
 import Navbar from '@/components/navbar'
 import { Providers } from '../components/providers'
 import { ThemeProvider } from 'next-themes'
-// import { ThemeProvider } from 'next-themes'
+
+import Script from 'next/script'
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -28,7 +29,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <Script src="https://example.com/script.js" strategy="lazyOnload" />
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

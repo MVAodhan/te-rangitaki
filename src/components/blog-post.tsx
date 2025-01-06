@@ -142,7 +142,7 @@ const BlogPost = ({
 
       {!isOpen && (
         <div className="w-full ">
-          {comments && user && (
+          {comments && (
             <BlogComments
               comments={comments}
               postId={post.id}

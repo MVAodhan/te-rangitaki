@@ -20,12 +20,12 @@ const Page = () => {
   }, [])
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <header className="mb-12 text-center">
+    <div className="flex container mx-auto px-4 py-8 h-full items-center justify-center">
+      <section className="mb-12 text-center ">
         <h1 className="text-4xl font-bold mb-1 italic text-opacity-90">Te Rangitaki</h1>
         <span className="text-2xl italic ">The Blog</span>
         <p className=" mt-6">A community blogging Platform</p>
-      </header>
+      </section>
     </div>
   )
 }
