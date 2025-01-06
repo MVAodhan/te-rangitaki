@@ -30,7 +30,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen`}>
-        <Script src="https://example.com/script.js" />
+        <Script
+          src="https://umami-production-d2e4.up.railway.app/script.js"
+          data-website-id="1a23cd85-0700-4093-8e96-a3205b693cbd"
+        />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
