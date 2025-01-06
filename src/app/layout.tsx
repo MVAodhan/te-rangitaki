@@ -29,8 +29,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <Script src="https://example.com/script.js" strategy="lazyOnload" />
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased h-screen`}>
+        <Script src="https://example.com/script.js" />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
