@@ -89,7 +89,7 @@ const BlogPost = ({
       <h1 className="text-4xl font-bold mb-4">{post?.title}</h1>
 
       {/* Meta information */}
-      <div className="flex flex-wrap gap-4 text-gray-600 mb-8">
+      <div className="flex flex-wrap gap-4  mb-8">
         <>
           <div className="flex items-center gap-2">
             <User size={16} />

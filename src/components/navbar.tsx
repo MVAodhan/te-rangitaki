@@ -24,18 +24,18 @@ const Navbar = () => {
           {/* Logo */}
           <Link href="/">
             <div className="flex min-w-1/3 flex-grow-1">
-              <span className="text-2xl font-bold text-gray-800 w-full flex">Te Rangitaki</span>
+              <span className="text-2xl font-bold  w-full flex">Te Rangitaki</span>
             </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:block w-2/3">
-            <div className=" flex justify-around ">
+          <div className="hidden md:block w-1/3">
+            <div className="flex justify-start">
               {navItems.map((item) => (
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium"
+                  className=" px-3 py-2 rounded-md text-sm font-medium"
                 >
                   {item.name}
                 </Link>
@@ -74,10 +74,12 @@ const Navbar = () => {
                 </Button>
               </>
             )}
+            <ModeToggle />
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden ">
+            <ModeToggle />
             <Button
               variant="ghost"
               size="sm"
@@ -93,16 +95,14 @@ const Navbar = () => {
       {/* Mobile menu */}
       {isOpen && (
         <div className="md:hidden ">
-          <div className="pb-4 absolute top-0 left-0 right-0 h-screen w-screen bg-white z-10 flex flex-col justify-between">
+          <div className="pb-4 absolute top-0 left-0 right-0 h-screen w-screen  bg-white dark:bg-black z-10 flex flex-col justify-between">
             <div>
-              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 shadow-md">
-                <div className="flex items-center justify-between h-16">
+              <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 shadow-md ">
+                <div className="flex items-center justify-between h-16 ">
                   {/* Logo */}
                   <Link href="/">
                     <div className="flex  flex-grow-1">
-                      <span className="text-2xl font-bold text-gray-800 w-full flex">
-                        Te Rangitaki
-                      </span>
+                      <span className="text-2xl font-bold w-full flex">Te Rangitaki</span>
                     </div>
                   </Link>
 
@@ -125,7 +125,7 @@ const Navbar = () => {
                   <Link
                     key={item.name}
                     href={item.href}
-                    className="text-gray-600 hover:text-gray-900 block px-5 py-2 rounded-md text-base font-medium"
+                    className=" block px-5 py-2 rounded-md text-base font-medium"
                     onClick={() => setIsOpen(!isOpen)}
                   >
                     {item.name}
@@ -142,23 +142,25 @@ const Navbar = () => {
                 </a>
               )}
               {user && (
-                <Button
-                  className="w-full"
-                  onClick={() => {
-                    pb.authStore.clear()
-                    setUser([])
-                    setIsOpen(!isOpen)
-                    window.location.reload()
-                  }}
-                >
-                  Sign Out
-                </Button>
+                <div>
+                  <Button
+                    className="w-full"
+                    onClick={() => {
+                      pb.authStore.clear()
+                      setUser([])
+                      setIsOpen(!isOpen)
+                      window.location.reload()
+                    }}
+                  >
+                    Sign Out
+                  </Button>
+                  <ModeToggle />
+                </div>
               )}
             </div>
           </div>
         </div>
       )}
-      <ModeToggle />
     </nav>
   )
 }

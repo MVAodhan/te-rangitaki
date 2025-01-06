@@ -23,8 +23,8 @@ const Page = () => {
     <div className="container mx-auto px-4 py-8">
       <header className="mb-12 text-center">
         <h1 className="text-4xl font-bold mb-1 italic text-opacity-90">Te Rangitaki</h1>
-        <span className="text-2xl italic opacity-55">The Blog</span>
-        <p className="text-gray-600 mt-6">A community blogging Platform</p>
+        <span className="text-2xl italic ">The Blog</span>
+        <p className=" mt-6">A community blogging Platform</p>
       </header>
     </div>
   )

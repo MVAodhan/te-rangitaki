@@ -29,10 +29,10 @@ const Page = () => {
               <CardHeader>
                 {/* <div className="text-sm text-gray-500 mb-2">{post.category}</div> */}
                 <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
-                <p className="text-gray-600">{post.excerpt}</p>
+                <p>{post.excerpt}</p>
               </CardHeader>
               <CardContent>
-                <div className="flex items-center text-sm text-gray-500">
+                <div className="flex items-center text-sm ">
                   {/* <span>{post.created.split(' ')[0]}</span>/ */}
                 </div>
               </CardContent>
