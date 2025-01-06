@@ -72,13 +72,11 @@ const BlogComments = ({
 
       <div className="space-y-4">
         {comments.map((comment) => (
-          <Card key={comment.id} className="bg-white">
+          <Card key={comment.id}>
             <CardContent className="pt-6">
               <div className="flex items-start justify-between">
                 <div className="flex items-center gap-2">
-                  <div className="h-8 w-8 rounded-full bg-gray-200 flex items-center justify-center">
-                    J
-                  </div>
+                  <div className="h-8 w-8 rounded-full  flex items-center justify-center">J</div>
                   <div>
                     <p className="font-medium">{comment.author}</p>
                     {/* <div className="flex items-center text-sm text-gray-500">
@@ -92,7 +90,7 @@ const BlogComments = ({
                   {comment.likes}
                   </Button> */}
               </div>
-              <p className="mt-4 text-gray-700">{comment.comment}</p>
+              <p className="mt-4">{comment.comment}</p>
               {comment.user === userId && (
                 <div className="flex justify-end gap-2">
                   <Button className="bg-red-500" onClick={() => deleteComment(comment.id)}>

@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
-import { Type, Bold, Image, Plus, RefreshCcw } from 'lucide-react'
+import { Type, Bold, Image, ImagePlay } from 'lucide-react'
 
 import { Editor } from '@tiptap/react'
 import ImagePopover from './editor-toolbar-image-popover'
@@ -57,7 +57,6 @@ const EditorToolbar = ({ editor }: { editor: Editor }) => {
       <Separator orientation="vertical" className="mx-1 h-6" />
       {
         <ImagePopover
-          icon={<Plus className="w-5 h-5" />}
           // eslint-disable-next-line jsx-a11y/alt-text
           icon2={<Image className="w-5 h-5" />}
           title="Add Image"
@@ -66,13 +65,12 @@ const EditorToolbar = ({ editor }: { editor: Editor }) => {
       }
       {
         <ImagePopover
-          icon={<RefreshCcw className="w-5 h-5" />}
-          // eslint-disable-next-line jsx-a11y/alt-text
-          icon2={<Image className="w-5 h-5" />}
+          icon2={<ImagePlay className="w-5 h-5" />}
           title="Replace Image"
           imageFunction={replaceImage}
         />
       }
+      <Separator orientation="vertical" className="mx-1 h-6" />
     </div>
   )
 }

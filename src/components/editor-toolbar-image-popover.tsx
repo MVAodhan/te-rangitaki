@@ -19,10 +19,10 @@ const ImagePopover = ({
 }) => {
   const urlRef = useRef<HTMLInputElement | null>(null)
   return (
-    <div>
+    <div className="flex h-8 py-0">
       <Popover>
         <PopoverTrigger>
-          <div className="flex h-8  items-center opacity-65  hover:bg-slate-300 rounded-md">
+          <div className="flex h-8 py-0 items-center opacity-65  hover:bg-slate-300 rounded-md">
             {icon}
             {icon2 && icon2}
           </div>

@@ -17,7 +17,9 @@ const LoginForm = () => {
   const router = useRouter()
 
   const getUser = async () => {
-    await pb.collection('users').authWithPassword('hamilton.aodhan@gmail.com', 'testpassword')
+    await pb
+      .collection('users')
+      .authWithPassword(emailRef.current!.value, passwordRef.current!.value)
 
     setUser(pb.authStore.record)
     router.push('/')

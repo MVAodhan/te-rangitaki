@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { isOpenAtom, userAtom } from '@/jotai'
 import { IUser } from '@/types'
+import { ModeToggle } from './toggle-theme'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useAtom(isOpenAtom)
@@ -17,7 +18,7 @@ const Navbar = () => {
   ]
 
   return (
-    <nav className="bg-white shadow-md relative">
+    <nav className=" shadow-md relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -157,6 +158,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
+      <ModeToggle />
     </nav>
   )
 }
