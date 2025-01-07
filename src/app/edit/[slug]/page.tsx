@@ -12,13 +12,10 @@ import { pb } from '@/my-lib/pocketbase'
 import { IUser, Post } from '@/types'
 import { Label } from '@radix-ui/react-label'
 import { useAtomValue, useSetAtom } from 'jotai'
-
-import { RefreshCw } from 'lucide-react'
 import { useEffect, useRef, useState } from 'react'
 
 const Page = ({ params }: { params: Promise<{ slug: string }> }) => {
   const titleRef = useRef<HTMLInputElement | null>(null)
-  const slugRef = useRef<HTMLInputElement | null>(null)
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null)
   const [post, setPost] = useState<Post | null>(null)
 
@@ -47,7 +44,6 @@ const Page = ({ params }: { params: Promise<{ slug: string }> }) => {
     if (!post || !user) return
     if (post) {
       titleRef.current!.value = post.title
-      slugRef.current!.value = post.slug
       descriptionRef.current!.value = post.excerpt
       editor?.commands.setContent(post.tree.content)
     }
@@ -57,15 +53,16 @@ const Page = ({ params }: { params: Promise<{ slug: string }> }) => {
   const getSlug = () => {
     if (titleRef.current) {
       const slug = generateSlug(titleRef.current.value)
-      slugRef.current!.value = slug
+      return slug
     } else return
   }
 
   const updatePost = async () => {
+    const slug = getSlug()
     const data = {
       title: titleRef.current?.value,
       author: user.id,
-      slug: slugRef.current?.value,
+      slug: slug,
       excerpt: descriptionRef.current?.value,
       tree: editor?.getJSON(),
     }
@@ -89,19 +86,14 @@ const Page = ({ params }: { params: Promise<{ slug: string }> }) => {
   return (
     <>
       <div className="container mx-auto px-4 py-8">
+        <div className="w-full flex justify-center">
+          <h2 className="text-5xl font-bold">Edit</h2>
+        </div>
         {post && (
           <div className="pb-8 flex flex-col gap-4">
             <Label htmlFor="title">Title</Label>
             <Input id="title" name="title" className="rounded-xl pl-6" ref={titleRef} />
-            <div className="flex gap-2 flex-col">
-              <Label htmlFor="slug">Slug</Label>
-              <div className="flex  w-full">
-                <Input id="slug" name="slug" className="rounded-xl pl-6" ref={slugRef} />
-                <Button onClick={getSlug}>
-                  <RefreshCw />
-                </Button>
-              </div>
-            </div>
+
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
@@ -110,7 +102,7 @@ const Page = ({ params }: { params: Promise<{ slug: string }> }) => {
               ref={descriptionRef}
             />
             <Card>
-              <CardContent className="pt-6">
+              <CardContent className="pt-6 dark:bg-dark-500">
                 <Tiptap editor={editor!} />
               </CardContent>
             </Card>

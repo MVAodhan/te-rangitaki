@@ -89,7 +89,7 @@ const BlogPost = ({
       <h1 className="text-4xl font-bold mb-4">{post?.title}</h1>
 
       {/* Meta information */}
-      <div className="flex flex-wrap gap-4  mb-8">
+      <div className="flex flex-wrap gap-4  mb-8 ">
         <>
           <div className="flex items-center gap-2">
             <User size={16} />
@@ -133,15 +133,15 @@ const BlogPost = ({
         </div>
       )}
       <div className="mb-8">
-        <Card>
-          <CardHeader>
+        <Card className="">
+          <CardHeader className="dark:bg-dark-500">
             <Tiptap editor={editor!} renderToolbar={false} />
           </CardHeader>
         </Card>
       </div>
 
       {!isOpen && (
-        <div className="w-full ">
+        <div className="w-full">
           {comments && (
             <BlogComments
               comments={comments}

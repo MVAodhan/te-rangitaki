@@ -20,7 +20,7 @@ const EditorToolbar = ({ editor }: { editor: Editor }) => {
   }
 
   return (
-    <div className="border border-input bg-background p-1 rounded-lg flex items-center gap-1 editor-toolbar">
+    <div className="border border-input dark:bg-dark-500 p-1 rounded-lg flex items-center gap-1 editor-toolbar">
       {/* Text formatting */}
       <Button
         variant="ghost"

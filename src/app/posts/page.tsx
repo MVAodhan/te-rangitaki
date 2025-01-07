@@ -24,7 +24,7 @@ const Page = () => {
           posts.map((post) => (
             <Card
               key={post.id}
-              className="flex flex-col hover:shadow-lg transition-shadow duration-200"
+              className="flex flex-col hover:shadow-lg transition-shadow duration-200 dark:bg-dark-500"
             >
               <CardHeader>
                 {/* <div className="text-sm text-gray-500 mb-2">{post.category}</div> */}

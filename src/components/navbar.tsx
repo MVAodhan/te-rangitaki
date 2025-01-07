@@ -95,7 +95,7 @@ const Navbar = () => {
       {/* Mobile menu */}
       {isOpen && (
         <div className="md:hidden ">
-          <div className="pb-4 absolute top-0 left-0 right-0 h-screen w-screen  bg-white dark:bg-black z-10 flex flex-col justify-between">
+          <div className="pb-4 absolute top-0 left-0 right-0 h-screen w-screen  bg-white dark:bg-dark-500 z-10 flex flex-col justify-between">
             <div>
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 shadow-md ">
                 <div className="flex items-center justify-between h-16 ">

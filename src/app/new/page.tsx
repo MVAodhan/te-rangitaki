@@ -75,7 +75,7 @@ const Page = () => {
             ref={descriptionRef}
           />
           <Card>
-            <CardContent className="pt-6">
+            <CardContent className="pt-6 dark:bg-dark-500">
               <Tiptap editor={editor!} />
             </CardContent>
           </Card>

@@ -55,7 +55,7 @@ const BlogComments = ({
   const commentRef = useRef<HTMLTextAreaElement | null>(null)
   return (
     <div className="w-full ">
-      <Card className="mb-6">
+      <Card className="mb-6 dark:bg-dark-500">
         <CardContent className="pt-6">
           <div className="flex flex-col gap-4">
             <Textarea
