@@ -7,15 +7,16 @@ import { Button } from '@/components/ui/button'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { userAtom } from '@/store'
 import { IUser } from '@/types'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
 import { pb } from '@/my-lib/pocketbase'
-import { Input } from '@/components/ui/input'
+
+import Message from '@/components/message'
 
 const ProfilePage = () => {
   // This would typically come from your auth/user context
   const user = useAtomValue(userAtom) as IUser
   const setUser = useSetAtom(userAtom)
-  const [showPasswordSection, setShowPasswordSection] = useState(false)
+
   const profile = {
     name: 'Sarah Johnson',
     username: '@sarahjohnson',
@@ -40,11 +41,15 @@ const ProfilePage = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  if (!user) {
+    return <Message message="Log in to view you profile" />
+  }
+
   return (
     <div className="max-w-4xl mx-auto p-4 space-y-6">
       {/* Profile Header */}
 
-      <Card>
+      <Card className="py-6 dark:bg-dark-500">
         <CardContent>
           <div className="flex justify-between items-start">
             <div className="flex items-center">
@@ -64,77 +69,17 @@ const ProfilePage = () => {
         </CardContent>
       </Card>
 
-      {/* Profile Stats */}
-      {/* <Card>
-        <CardContent className="grid grid-cols-3 gap-4 p-4">
-          <div className="text-center">
-            <div className="text-2xl font-bold">{profile.stats.posts}</div>
-            <div className="text-gray-600">Posts</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold">{profile.stats.followers}</div>
-            <div className="text-gray-600">Followers</div>
-          </div>
-          <div className="text-center">
-            <div className="text-2xl font-bold">{profile.stats.following}</div>
-            <div className="text-gray-600">Following</div>
-          </div>
-        </CardContent>
-      </Card> */}
-
-      {/* Profile Details */}
-      {/* <Card>
-        <CardHeader className="text-lg font-semibold">Profile Info</CardHeader>
-        <CardContent className="space-y-4">
-          <div className="flex items-center space-x-2 text-gray-600">
-            <Mail className="w-4 h-4" />
-            <span>{profile.email}</span>
-          </div>
-          <div className="flex items-center space-x-2 text-gray-600">
-            <MapPin className="w-4 h-4" />
-            <span>{profile.location}</span>
-          </div>
-          <div className="flex items-center space-x-2 text-gray-600">
-            <Link2 className="w-4 h-4" />
-            <a href={`https://${profile.website}`} className="text-blue-600 hover:underline">
-              {profile.website}
-            </a>
-          </div> 
-          
-        </CardContent>
-      </Card> */}
-      <Card className="dark:bg-dark-100">
+      <Card className="dark:bg-dark-500">
         <CardHeader className="flex flex-row items-center justify-between">
           <div className="flex items-center space-x-2">
             <Lock className="w-4 h-4" />
             <span className="text-lg font-semibold">Password Settings</span>
           </div>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => setShowPasswordSection((showPasswordSection) => !showPasswordSection)}
-          >
-            {showPasswordSection ? 'Cancel' : 'Change Password'}
+          <Button variant="outline" size="sm">
+            Change Password
           </Button>
         </CardHeader>
-        <CardContent>
-          {showPasswordSection && (
-            <div className="flex flex-col gap-8">
-              <div className="space-y-2">
-                <Input name="currentPassword" placeholder="Enter current password" />
-              </div>
-              <div className="space-y-2">
-                <Input name="newPassword" placeholder="Enter new password" />
-              </div>
-              <div className="space-y-2">
-                <Input name="confirmPassword" placeholder="Confirm new password" />
-              </div>
-              <Button type="submit" className="w-full">
-                Update Password
-              </Button>
-            </div>
-          )}
-        </CardContent>
+        <CardContent></CardContent>
       </Card>
     </div>
   )

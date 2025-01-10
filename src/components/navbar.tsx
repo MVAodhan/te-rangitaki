@@ -55,12 +55,17 @@ const Navbar = () => {
             {user && (
               <>
                 {user.role === 'editor' && (
-                  <Link href="/new">
-                    <Button size="sm">
-                      <Plus className="mr-2 h-4 w-4" />
-                      New
-                    </Button>
-                  </Link>
+                  <>
+                    <Link href="/new">
+                      <Button size="sm">
+                        <Plus className="mr-2 h-4 w-4" />
+                        New
+                      </Button>
+                    </Link>
+                    <Link href="/reset-password">
+                      <Button size="sm">Reset Password</Button>
+                    </Link>
+                  </>
                 )}
                 <Button
                   size="sm"

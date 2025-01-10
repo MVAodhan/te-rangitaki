@@ -10,8 +10,8 @@ const Message = ({
   // Sample blog post data - in practice, this would come from props or an API
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-8">
-      <Card className="mb-8">
+    <div className="max-w-3xl mx-auto px-4 py-8 ">
+      <Card className="mb-8 dark:bg-dark-500">
         <CardContent className="pt-6">
           <p>{message}</p>
         </CardContent>
