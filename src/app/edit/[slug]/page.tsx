@@ -85,7 +85,7 @@ const Page = ({ params }: { params: Promise<{ slug: string }> }) => {
 
   return (
     <>
-      <div className="container mx-auto px-4 py-8">
+      <div className="max-w-3xl mx-auto px-4 py-8 dark:bg-dark-500">
         <div className="w-full flex justify-center">
           <h2 className="text-5xl font-bold">Edit</h2>
         </div>

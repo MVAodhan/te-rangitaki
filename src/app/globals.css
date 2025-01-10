@@ -108,7 +108,7 @@ body {
     object-fit: fill;
 
     &.ProseMirror-selectednode {
-      outline: 3px solid red;
+      outline: 3px solid black;
     }
   }
 }

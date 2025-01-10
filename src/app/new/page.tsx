@@ -54,8 +54,8 @@ const Page = () => {
   }
   return (
     <>
-      <div className="container mx-auto px-4 py-8">
-        <div className="pb-8 flex flex-col gap-4">
+      <div className="max-w-3xl mx-auto px-4 py-8 dark:bg-dark-500">
+        <div className="pb-8 flex flex-col gap-4  ">
           <Label htmlFor="title">Title</Label>
           <Input id="title" name="title" className="rounded-xl pl-6" ref={titleRef} />
           <div className="flex gap-2 flex-col">
@@ -74,8 +74,8 @@ const Page = () => {
             className="rounded-xl pl-6"
             ref={descriptionRef}
           />
-          <Card>
-            <CardContent className="pt-6 dark:bg-dark-500">
+          <Card className="dark:bg-dark-500">
+            <CardContent className="pt-6  ">
               <Tiptap editor={editor!} />
             </CardContent>
           </Card>
