@@ -14,6 +14,7 @@ import BlogComments from './blog-comments'
 import BlogCommentsSkeleton from './blog-comments-skelly'
 import { RecordModel } from 'pocketbase'
 import { Card, CardHeader } from './ui/card'
+import Message from './message'
 
 const BlogPost = ({
   posts,
@@ -140,7 +141,7 @@ const BlogPost = ({
         </Card>
       </div>
 
-      {!isOpen && (
+      {!isOpen && user && (
         <div className="w-full">
           {comments && (
             <BlogComments
@@ -150,10 +151,10 @@ const BlogPost = ({
               setComments={setComments}
             />
           )}
-
           {!comments && <BlogCommentsSkeleton />}
         </div>
       )}
+      {!user && <Message message="Log in to see comments" />}
     </div>
   )
 }
