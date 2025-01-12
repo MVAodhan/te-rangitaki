@@ -1,12 +1,13 @@
 'use client'
 import { pb } from '@/my-lib/pocketbase'
 import { Button } from '@/components/ui/button'
-import { Menu, X, Plus } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import Link from 'next/link'
 import { useAtom, useAtomValue, useSetAtom } from 'jotai'
 import { isOpenAtom, userAtom } from '@/jotai'
 import { IUser } from '@/types'
 import { ModeToggle } from './toggle-theme'
+import UserDropdown from './user-dropdown'
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useAtom(isOpenAtom)
@@ -52,33 +53,7 @@ const Navbar = () => {
                 </Button>
               </a>
             )}
-            {user && (
-              <>
-                {user.role === 'editor' && (
-                  <>
-                    <Link href="/new">
-                      <Button size="sm">
-                        <Plus className="mr-2 h-4 w-4" />
-                        New
-                      </Button>
-                    </Link>
-                    <Link href="/reset-password">
-                      <Button size="sm">Reset Password</Button>
-                    </Link>
-                  </>
-                )}
-                <Button
-                  size="sm"
-                  onClick={() => {
-                    pb.authStore.clear()
-                    setUser([])
-                    window.location.reload()
-                  }}
-                >
-                  Sign Out
-                </Button>
-              </>
-            )}
+            {user && <UserDropdown initials={user.name[0].toUpperCase()} />}
             <ModeToggle />
           </div>
 
@@ -159,7 +134,7 @@ const Navbar = () => {
                   >
                     Sign Out
                   </Button>
-                  <ModeToggle />
+                  {/* <ModeToggle /> */}
                 </div>
               )}
             </div>
