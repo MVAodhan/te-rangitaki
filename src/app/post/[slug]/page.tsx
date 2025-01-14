@@ -31,6 +31,8 @@ const Page = ({ params }: { params: Promise<{ slug: string }> }) => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  
   return (
     <div>
       {posts && post && authorName ? (

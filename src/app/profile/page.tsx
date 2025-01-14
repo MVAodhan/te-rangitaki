@@ -1,21 +1,24 @@
 'use client'
 
-import { User, Lock } from 'lucide-react'
+import { User, Lock, Pencil } from 'lucide-react'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 
 import { useAtomValue, useSetAtom } from 'jotai'
 import { userAtom } from '@/store'
 import { IUser } from '@/types'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { pb } from '@/my-lib/pocketbase'
 
 import Message from '@/components/message'
+import { RecordModel } from 'pocketbase'
+import Link from 'next/link'
 
 const ProfilePage = () => {
   // This would typically come from your auth/user context
   const user = useAtomValue(userAtom) as IUser
   const setUser = useSetAtom(userAtom)
+  const [posts, setPosts] = useState<RecordModel[] | null>(null)
 
   const profile = {
     name: 'Sarah Johnson',
@@ -33,13 +36,27 @@ const ProfilePage = () => {
     },
   }
 
+  const getPosts = async () => {
+    const posts = await pb.collection('posts').getFullList({
+      filter: `author = "${user.id}"`,
+    })
+    setPosts(posts)
+  }
+
   useEffect(() => {
     if (user) return
     if (!user && pb.authStore.isValid) {
       setUser(pb.authStore.record)
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  useEffect(() => {
+    if (!user) return
+    getPosts()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user])
 
   if (!user) {
     return <Message message="Log in to view you profile" />
@@ -81,6 +98,25 @@ const ProfilePage = () => {
         </CardHeader>
         <CardContent></CardContent>
       </Card>
+      <div className=" border-red-500 flex flex-col items-center gap-4 w-full">
+        <h3>My posts</h3>
+        {posts &&
+          posts.map((post) => (
+            <Card className="dark:bg-dark-500 w-full" key={post.id}>
+              <CardHeader className="flex flex-row items-center justify-between">
+                <h4>{post.title}</h4>
+              </CardHeader>
+              <CardContent>
+                <Link href={`/edit/${post?.slug}`}>
+                  <Button className="h-8">
+                    <Pencil />
+                    <span>Edit</span>
+                  </Button>
+                </Link>
+              </CardContent>
+            </Card>
+          ))}
+      </div>
     </div>
   )
 }

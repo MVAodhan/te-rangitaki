@@ -10,7 +10,10 @@ import { RecordModel } from 'pocketbase'
 const Page = () => {
   const [posts, setPosts] = useState<RecordModel[] | null>([])
   const getPosts = async () => {
-    const posts = await pb.collection('posts').getFullList()
+    const posts = await pb.collection('posts').getFullList({
+      filter: 'published = true',
+    })
+
     setPosts(posts)
   }
   useEffect(() => {

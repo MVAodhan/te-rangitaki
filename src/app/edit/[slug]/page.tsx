@@ -14,10 +14,14 @@ import { Label } from '@radix-ui/react-label'
 import { useAtomValue, useSetAtom } from 'jotai'
 import { useEffect, useRef, useState } from 'react'
 
+import { Switch } from '@/components/ui/switch'
+
 const Page = ({ params }: { params: Promise<{ slug: string }> }) => {
   const titleRef = useRef<HTMLInputElement | null>(null)
   const descriptionRef = useRef<HTMLTextAreaElement | null>(null)
   const [post, setPost] = useState<Post | null>(null)
+
+  const [published, setPublished] = useState(false)
 
   const user = useAtomValue(userAtom) as IUser
   const setUser = useSetAtom(userAtom)
@@ -65,6 +69,7 @@ const Page = ({ params }: { params: Promise<{ slug: string }> }) => {
       slug: slug,
       excerpt: descriptionRef.current?.value,
       tree: editor?.getJSON(),
+      published: published,
     }
 
     await pb.collection('posts').update(post!.id, data)
@@ -101,6 +106,13 @@ const Page = ({ params }: { params: Promise<{ slug: string }> }) => {
               className="rounded-xl pl-6"
               ref={descriptionRef}
             />
+            <div className="flex gap-2 justify-end">
+              Published
+              <Switch
+                defaultChecked={post ? post.published! : false}
+                onCheckedChange={(checked) => setPublished(checked)}
+              />
+            </div>
             <Card>
               <CardContent className="pt-6 dark:bg-dark-500">
                 <Tiptap editor={editor!} />
