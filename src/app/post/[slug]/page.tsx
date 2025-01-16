@@ -12,7 +12,6 @@ const Page = ({ params }: { params: Promise<{ slug: string }> }) => {
   const [authorName, setAuthorName] = useState('')
   const [posts, setPosts] = useState<RecordModel[] | null>(null)
 
-  useEffect(() => {}, [])
   const getSlug = async () => {
     const slug = (await params).slug
 
@@ -26,13 +25,13 @@ const Page = ({ params }: { params: Promise<{ slug: string }> }) => {
     const author = await pb.collection('user').getFirstListItem(`id="${post.author}"`)
     setAuthorName(author.name)
   }
+
   useEffect(() => {
     getSlug()
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  
   return (
     <div>
       {posts && post && authorName ? (

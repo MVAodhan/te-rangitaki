@@ -7,9 +7,9 @@ import Text from '@tiptap/extension-text'
 import { useEditor } from '@tiptap/react'
 
 import Image from '@tiptap/extension-image'
-import Youtube from '@tiptap/extension-youtube'
 import CodeBlock from '@tiptap/extension-code-block'
 import Link from '@tiptap/extension-link'
+import YouTubeNode from './youtube-node'
 
 export function generateSlug(text: string): string {
   return (
@@ -53,11 +53,8 @@ export function useEditorInit({
         placeholder: placeholder,
       }),
       Image,
-      Youtube.configure({
-        controls: false,
-        nocookie: true,
-        ccLanguage: 'en',
-      }),
+
+      YouTubeNode,
       CodeBlock,
       Link.configure({
         openOnClick: false,

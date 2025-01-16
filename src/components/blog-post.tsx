@@ -49,6 +49,8 @@ const BlogPost = ({
   useEffect(() => {
     if (pb.authStore.isValid && !user) {
       setUser(pb.authStore.record)
+    } else {
+      console.log('user not valid in blog post')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
