@@ -35,7 +35,7 @@ const YouTubeNode = Node.create({
     ]
   },
 
-  renderHTML({ node, HTMLAttributes }) {
+  renderHTML({ node }) {
     return ['div', { 'data-youtube': node.attrs.src }]
   },
 
