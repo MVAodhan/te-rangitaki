@@ -1,12 +1,18 @@
 import { Node } from '@tiptap/core'
 import { ReactNodeViewRenderer } from '@tiptap/react'
-import YouTubeComponent from '../components/youtube-component' // Your custom React component
+import { RawCommands } from '@tiptap/core'
+import YouTubeComponent from '../components/youtube-component'
 
-const getYouTubeVideoId = (url) => {
+interface Options {
+  src: string
+}
+
+const getYouTubeVideoId = (url: string) => {
   const regex = /(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/
   const match = url.match(regex)
   return match ? match[1] : null
 }
+
 const YouTubeNode = Node.create({
   name: 'youtube',
   group: 'block',
@@ -25,8 +31,8 @@ const YouTubeNode = Node.create({
       {
         tag: 'div[data-youtube]',
         getAttrs: (dom) => {
-          const src = dom.getAttribute('data-youtube')
-          const videoId = getYouTubeVideoId(src)
+          const src = (dom as HTMLElement).getAttribute('data-youtube')
+          const videoId = getYouTubeVideoId(src || '')
           return {
             src: videoId ? `https://www.youtube.com/embed/${videoId}` : null,
           }
@@ -39,15 +45,14 @@ const YouTubeNode = Node.create({
     return ['div', { 'data-youtube': node.attrs.src }]
   },
 
-  addCommands() {
+  addCommands(): Partial<RawCommands> {
     return {
       setYoutubeVideo:
-        (options) =>
+        (options: Options) =>
         ({ commands }) => {
           const videoId = getYouTubeVideoId(options.src)
-          console.log('set youtube command', videoId)
           if (!videoId) {
-            return false // Invalid YouTube URL
+            return false
           }
           return commands.insertContent({
             type: this.name,

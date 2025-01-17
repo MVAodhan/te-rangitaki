@@ -53,7 +53,6 @@ export function useEditorInit({
         placeholder: placeholder,
       }),
       Image,
-
       YouTubeNode,
       CodeBlock,
       Link.configure({

@@ -1,12 +1,11 @@
 'use client'
 
 import React from 'react'
-import { NodeViewWrapper } from '@tiptap/react'
+import { NodeViewWrapper, NodeViewProps } from '@tiptap/react'
 
-const YouTubeComponent = ({ node }) => {
-  const { src } = node.attrs
-
-  console.log(src)
+// Use NodeViewProps directly
+const YouTubeComponent = ({ node }: NodeViewProps) => {
+  const { src } = node.attrs as { src: string } // Cast attrs to the correct type
 
   return (
     <NodeViewWrapper style={{ width: '100%' }}>
